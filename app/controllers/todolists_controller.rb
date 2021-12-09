@@ -2,15 +2,23 @@ class TodolistsController < ApplicationController
   def new
     @list = List.new
   end
-  
+
   def create
-    list = List.new(list=params)
+    # １. データを新規登録するためのインスタンス作成
+    list = List.new(list_params)
+    # ２. データをデータベースに保存するためのsaveメソッド実行
     list.save
+    # ３. トップ画面へリダイレクト
     redirect_to '/top'
   end
-  
+
+  def index
+    @lists = List.all
+  end
+
+
   private
-  def list=params
-    params.require(:list).permit(:title,:body)
+  def list_params
+    params.require(:list).permit(:title, :body)
   end
 end
